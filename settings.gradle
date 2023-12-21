@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "GadgetLog"
+rootProject.name = "BigBook"
 include ':app'
