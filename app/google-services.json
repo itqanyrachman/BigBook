@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "409162093487",
+    "firebase_url": "https://tivy-31803-default-rtdb.firebaseio.com/",
+    "project_id": "tivy-31803",
+    "storage_bucket": "tivy-31803.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409162093487:android:82e95be2a31f7815d2955a",
+        "android_client_info": {
+          "package_name": "com.pietro.gadgetlog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6qn-9HeLcM-aUUy-s_qBRkBNm_u_e3sM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
