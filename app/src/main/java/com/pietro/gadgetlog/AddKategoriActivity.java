@@ -259,7 +259,7 @@ public class AddKategoriActivity extends AppCompatActivity {
         });
     }
 
-    //    SAVE GAME TO DB
+    //    Menyimpan Buku ke Database
     private void submitKategori(String name, String genre, String img, String price) {
         Kategori kategori;
         if(kategoriType.equals("science")) {

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,23 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pietro.gadgetlog.AddPenerbitActivity;
 import com.pietro.gadgetlog.ListKategoriActivity;
 import com.pietro.gadgetlog.R;
 import com.pietro.gadgetlog.model.Penerbit;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PenerbitAdapter extends RecyclerView.Adapter<PenerbitAdapter.PenerbitViewHolder> {
     private Context context;
@@ -62,7 +70,7 @@ public class PenerbitAdapter extends RecyclerView.Adapter<PenerbitAdapter.Penerb
         holder.cvPenerbit.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                final CharSequence[] items = { "Edit", "Delete", "Cancel" };
+                final CharSequence[] items = { "Edit", "Delete", "Cancel", "Download" };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -76,6 +84,8 @@ public class PenerbitAdapter extends RecyclerView.Adapter<PenerbitAdapter.Penerb
                             delete(penerbitList.get(holder.getAdapterPosition()));
                         } else if (items[item].equals("Cancel")) {
                             dialog.dismiss();
+                        } else if (items[item].equals("Download")) {
+                            downloadImage(penerbitList.get(holder.getAdapterPosition()));
                         }
                     }
                 });
@@ -99,6 +109,22 @@ public class PenerbitAdapter extends RecyclerView.Adapter<PenerbitAdapter.Penerb
             public void onSuccess(Void unused) {
                 Toast.makeText(context, "Data Berhasil Dihapus", Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    private void downloadImage(Penerbit penerbit) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String name = penerbit.getName().replaceAll(" ", "").toLowerCase(Locale.ROOT);
+        StorageReference reference = storage.getReference("images/penerbit")
+                .child("IMG-erlangga-1703172059135.jpeg");
+
+        File localFile = new File(context.getFilesDir(), "downloaded_image.jpeg");
+
+        reference.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(context, "Berhasil mengunduh gambar", Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(exception -> {
+            // Handle failure
+            Toast.makeText(context, "Gagal mengunduh gambar", Toast.LENGTH_SHORT).show();
         });
     }
 
